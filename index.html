@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shaun's Shop</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="index-page">
+  <section class="hero">
+    <h1>Safe, powered, and ready for anything.</h1>
+    <h2>Disasters don't wait, be prepared.</h2>
+  </section>
+  <main class="content">
+    <section class="live-activity-section">
+      <div class="live-activity-cards">
+        <div class="info-card live-card">
+          <div class="live-card-top">
+            <h3>Live purchase activity</h3>
+            <span class="activity-badge">Realtime</span>
+          </div>
+          <div class="metric live-metric">
+            <div>
+              <strong id="liveCount">Loading...</strong>
+              <span>people are buying now</span>
+            </div>
+            <div class="metric-icon">🔥</div>
+          </div>
+          <div class="metric">
+            <div>
+              <strong>Payment</strong>
+              <span>Online or cash on delivery options</span>
+            </div>
+          </div>
+          <div class="metric">
+            <div>
+              <strong>Updates</strong>
+              <span>Data refreshes automatically every few seconds</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="panel">
+      <div class="panel-inner">
+        <div class="panel-left">
+          <h2>Order here</h2>
+          <p>When a disaster happens, the lights might go out, and regular water might stop running. 
+            Shop items now that keeps you safe and helps you stay connected to
+             your family and friends. </p>
+          <a class="button" href="homepage.html">Go to Homepage</a>
+          <img class="site-logo" src="pictures/logo.png" alt="Shaun's Shop logo" />
+        </div>
+      </div>
+    </div>
+
+    <p class="footer">Run `live_count_server.py` with Python and open this page from <strong>http://localhost:8000/index.html</strong> to see the live count refresh.</p>
+  </main>
+  <script>
+    const countEl = document.getElementById('liveCount');
+    const countUrl = window.location.protocol === 'file:'
+      ? 'http://localhost:8000/count'
+      : '/count';
+
+    async function refreshCount() {
+      try {
+        const response = await fetch(countUrl);
+        if (!response.ok) throw new Error('Fetch failed');
+        const data = await response.json();
+        countEl.textContent = data.count.toLocaleString();
+      } catch (error) {
+        countEl.textContent = 'Unavailable';
+        console.error('Live count fetch error:', error);
+      }
+    }
+    refreshCount();
+    setInterval(refreshCount, 3000);
+  </script>
+</body>
+</html>
